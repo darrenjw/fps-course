@@ -48,7 +48,13 @@ Go through the fragment files in turn, pasting code chunks into a REPL, one at a
 
 ### 4. 
 
-
+* Create an ADT of the form
+```scala
+case class LeavingPresent(names: List[String], fund: Double)
+```
+which tracks the contributors to a leaving fund and the total contribution, but not the sizes of the individual contributions.
+* Create a `Monoid` instance for `LeavingPresent`.
+* Make sure you can combine contributions from different groups, using `|+|`.
 
 #### eof
 
