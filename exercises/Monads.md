@@ -26,7 +26,10 @@ which does the obvious thing. Use this to write a function:
 ```scala
 def addContributions(lp: LeavingPresent)(names: List[String], amounts: List[Double]): LeavingPresent
 ```
-Now refactor the code by making the return types `Writer[List[String], LeavingPresent]`, which logs the names and amounts (as a `String`) of all the contributions that have been added to the `LeavingPresent`. I realise this is a very artificial example, but it's tricky to come up with examples that are both realistic and simple.
+* Now refactor the code by making the return types `Writer[List[String], LeavingPresent]`, which logs the names and amounts (as a `String`) of all the contributions that have been added to the `LeavingPresent`.
+* Now refactor `addContributions` so that it will work for any monadic context. That is, for a `M[LeavingPresent]` for any `Monad[M]`.
+
+I realise this is a very artificial example, but it's tricky to come up with examples that are both realistic and simple!
 
 
 #### eof
