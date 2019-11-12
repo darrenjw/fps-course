@@ -7,7 +7,9 @@ These exercises are to be undertaken following the presentation of the material 
 ### 1. Setup
 
 * Make sure that you are set up to write, compile and run code using the libraries and versions used in this course:
-Scala 2.12.10, Sbt 1.3.2, Cats 2.0.0, Simulacrum 1.0.0, Monocle 2.0.0, Discipline 1.0.0, ScalaTest 3.0.8.
+
+Scala 2.12.10, Sbt 1.3.2, Cats 2.0.0, Simulacrum 1.0.0, Monocle 2.0.0, Discipline 1.0.0, ScalaTest 3.0.8
+
 I have a [sbt giter8 project template](https://github.com/darrenjw/fps.g8) that should make this very easy. Assuming that you have [sbt]() installed, you should just be able to do:
 ```bash
 sbt new darrenjw/fps.g8
