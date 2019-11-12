@@ -46,7 +46,7 @@ Go through the fragment files in turn, pasting code chunks into a REPL, one at a
 * If you are new to FP ideas, it would be worth working through the first few parts of the [FP in Scala](https://www.scala-exercises.org/fp_in_scala/getting_started_with_functional_programming) exercises. Start with "Getting started with FP", and also do "Functional data structures". We'll come back to some of the other bits later.
 * Work through the [Cats exercises](https://www.scala-exercises.org/cats/semigroup) for "Semigroup" and "Monoid". Again, we'll come back to some of the other bits later.
 
-### 4. 
+### 4. Monoid instance
 
 * Create an ADT of the form
 ```scala
