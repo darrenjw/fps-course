@@ -41,4 +41,10 @@ val employee = Employee("john", Company("awesome inc", Address("london", Street(
 ```
 Develop and compose some appropriate lenses for modifying various parts of the data structure of an employee. Think about structuring your code so that lens creation happens only once, no matter how many times data structures are accessed.
 
+### 5. Validation
+
+* Create a simple, artificial "web form validation" example, where multiple fields are provided by a user, each of which is subject to some kind of validation check.
+* Compare `Option`, `Either` and `Validation` approaches to field validation.
+
+
 #### eof
