@@ -17,8 +17,8 @@ class CatsSpec extends AnyFlatSpec with Matchers {
 
 
 // Example property-based tests
-import org.scalatest.prop._
-class MyPropertyTests extends AnyFlatSpec with Matchers with PropertyChecks {
+import org.scalatestplus.scalacheck._
+class MyPropertyTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyChecks {
 
   import cats._
   import cats.implicits._
