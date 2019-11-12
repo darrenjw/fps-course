@@ -29,6 +29,13 @@ Note that if for some reason you can't or don't want to use `sbt new`, there is 
 
 ### 2. Paste fragments
 
+* Look at the code in the [fragments](../fragments/) directory. This directory contains all of the code from the notes, automatically extracted. The files associated with Part 1 of the course are of the form `part1s-*.scala`.
+    * [tapf](../fragments/part1s-tapf.scala)
+    * [cat](../fragments/part1s-cat.scala)
+    * [adt](../fragments/part1s-adt.scala)
+    * [mon](../fragments/part1s-mon.scala)
+    * [assoc](../fragments/part1s-assoc.scala)
+    * [tc](../fragments/part1s-tc.scala)
 
 ### 3. Some scala exercises
 
