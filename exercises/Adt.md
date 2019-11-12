@@ -31,11 +31,13 @@ Note that if for some reason you can't or don't want to use `sbt new`, there is 
 
 * Look at the code in the [fragments](../fragments/) directory. This directory contains all of the code from the notes, automatically extracted. The files associated with Part 1 of the course are of the form `part1s-*.scala`.
     * [tapf](../fragments/part1s-tapf.scala)
-    * [cat](../fragments/part1s-cat.scala)
     * [adt](../fragments/part1s-adt.scala)
     * [mon](../fragments/part1s-mon.scala)
     * [assoc](../fragments/part1s-assoc.scala)
     * [tc](../fragments/part1s-tc.scala)
+Go through the fragment files in turn, pasting code chunks into a REPL, one at a time, making sure they work, and making sure you understand what is going on. Use the REPL to explore things you aren't quite sure about.
+
+* When using Cats, you will want the [Cats website](https://typelevel.org/cats/) open in your browser - especially the tutorial documentation for the [type classes](https://typelevel.org/cats/typeclasses.html) and [data types](https://typelevel.org/cats/datatypes.html), but also the [API docs](https://typelevel.org/cats/api/cats/).
 
 ### 3. Some scala exercises
 
