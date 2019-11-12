@@ -14,6 +14,7 @@ Materials for registered participants of the course "Category theory for pure fu
 
 ### Rough timetable:
 
+Time          | Activity
 --------------|-----------
 9.00 - 10.50  | Lecture
 10.50 - 11.10 | Coffee
