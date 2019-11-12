@@ -35,12 +35,16 @@ Note that if for some reason you can't or don't want to use `sbt new`, there is 
     * [mon](../fragments/part1s-mon.scala)
     * [assoc](../fragments/part1s-assoc.scala)
     * [tc](../fragments/part1s-tc.scala)
+
 Go through the fragment files in turn, pasting code chunks into a REPL, one at a time, making sure they work, and making sure you understand what is going on. Use the REPL to explore things you aren't quite sure about.
 
 * When using Cats, you will want the [Cats website](https://typelevel.org/cats/) open in your browser - especially the tutorial documentation for the [type classes](https://typelevel.org/cats/typeclasses.html) and [data types](https://typelevel.org/cats/datatypes.html), but also the [API docs](https://typelevel.org/cats/api/cats/).
 
 ### 3. Some scala exercises
 
+* [Scala exercises](https://www.scala-exercises.org/) has some nice web-based interactive exercises to help learn some Scala libraries and programming concepts.
+* If you are new to FP ideas, it would be worth working through the first few parts of the [FP in Scala](https://www.scala-exercises.org/fp_in_scala/getting_started_with_functional_programming) exercises. Start with "Getting started with FP", and also do "Functional data structures". We'll come back to some of the other bits later.
+* Work through the [Cats exercises](https://www.scala-exercises.org/cats/semigroup) for "Semigroup" and "Monoid". Again, we'll come back to some of the other bits later.
 
 ### 4. 
 
