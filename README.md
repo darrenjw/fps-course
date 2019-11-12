@@ -14,13 +14,13 @@ Materials for registered participants of the course "Category theory for pure fu
 
 ### Rough timetable:
 
-9.00 - 10.50 | Lecture
+9.00 - 10.50  | Lecture
 10.50 - 11.10 | Coffee
 11.10 - 12.10 | Exercises
 12.10 - 12.50 | Lunch
-12.50 - 2.40 | Lecture
-2.40 - 3.00 | Coffee
-3.00 - 4.00 | Exercises
+12.50 - 2.40  | Lecture
+2.40 - 3.00   | Coffee
+3.00 - 4.00   | Exercises
 
 
 **Copyright (C) 2019, Darren J Wilkinson - some rights reserved**
