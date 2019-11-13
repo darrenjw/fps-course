@@ -2,7 +2,7 @@
 
 ## Category theory for pure functional programming in Scala - materials for course participants
 
-Materials for registered participants of the course "Category theory for pure functional programming in Scala"
+Materials for registered participants of the course "Category theory for pure functional programming in Scala". The course notes are not publicly available.
 
 * [Course outline](Outline.md)
 * [Fragments](fragments/) - code blocks extracted from the course notes
