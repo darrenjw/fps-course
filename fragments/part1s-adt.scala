@@ -6,6 +6,12 @@ p._1
 // End chunk
 
 // Chunk:  mdoc
+case class IntBool(i: Int, b: Boolean)
+val pcc = IntBool(3, false)
+pcc.i
+// End chunk
+
+// Chunk:  mdoc
 val tup2cc: ((Int, Boolean)) => IntBool = tup =>
   IntBool(tup._1, tup._2)
 val cc2tup: IntBool => (Int, Boolean) = ib => (ib.i, ib.b)
