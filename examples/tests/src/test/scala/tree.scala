@@ -47,6 +47,15 @@ class TreeLawTests extends AnyFunSuite with Discipline {
   // Now we can just test the Functor laws from cats-laws using discipline
   checkAll("Tree.FunctorLaws", FunctorTests[Tree].functor[Int, Int, String])
 
+  // That's it for the Tree example, but we can do some other tests...
+
+  // Let's just make sure that Option is really a Functor
+  checkAll("Option.FunctorLaws", FunctorTests[Option].functor[Int, Int, String])
+
+  // ... and that Vector is really a Monad (this one is slow)
+  import cats.laws.discipline.MonadTests
+  checkAll("Vector.MonadLaws", MonadTests[Vector].monad[Int, Int, String])
+
 }
 
 // eof
