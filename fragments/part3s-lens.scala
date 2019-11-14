@@ -4,7 +4,8 @@ case class Address(city: String, street: Street)
 case class Company(name: String, address: Address)
 case class Employee(name: String, company: Company)
 
-val employee = Employee("john", Company("awesome inc", Address("london", Street(23, "high street"))))
+val employee = Employee("john", Company("awesome inc", 
+  Address("london", Street(23, "high street"))))
 // End chunk
 
 // Chunk:  mdoc
