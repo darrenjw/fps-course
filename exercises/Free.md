@@ -35,3 +35,7 @@ The Cats website has a page on [law testing](https://typelevel.org/cats/typeclas
 * Create a stand-alone app implementing the example from the Cats documentation - make sure you understand all the parts.
 
 
+### 6. Monad transformers and MTL
+
+It is a bit clumsy to work with monad transformer stacks directly in Scala. MTL (monad transformer library) is an attempt to make it a bit easier. For an introduction, start with this [Comprehensive introduction to Cats-mtl](https://typelevel.org/blog/2018/10/06/intro-to-mtl.html).
+
