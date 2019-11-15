@@ -46,5 +46,8 @@ Develop and compose some appropriate lenses for modifying various parts of the d
 * Create a simple, artificial "web form validation" example, where multiple fields are provided by a user, each of which is subject to some kind of validation check.
 * Compare `Option`, `Either` and `Validation` approaches to field validation.
 
+### 6. Comonads
+
+For a bit more on comonads, read through my blog post on [Monads for scientific and statistical computing](https://darrenjw.wordpress.com/2018/01/22/comonads-for-scientific-and-statistical-computing-in-scala/), and reproduce the examples. At the end of the post there are links for further reading.
 
 #### eof
