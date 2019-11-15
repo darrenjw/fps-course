@@ -48,6 +48,6 @@ Develop and compose some appropriate lenses for modifying various parts of the d
 
 ### 6. Comonads
 
-For a bit more on comonads, read through my blog post on [Monads for scientific and statistical computing](https://darrenjw.wordpress.com/2018/01/22/comonads-for-scientific-and-statistical-computing-in-scala/), and reproduce the examples. At the end of the post there are links for further reading.
+For a bit more on comonads, read through my blog post on [Comonads for scientific and statistical computing](https://darrenjw.wordpress.com/2018/01/22/comonads-for-scientific-and-statistical-computing-in-scala/), and reproduce the examples. At the end of the post there are links for further reading.
 
 #### eof
