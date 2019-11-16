@@ -16,6 +16,7 @@ object CatsIOApp extends IOApp {
       _ <- printMsg("Hi")
       _ <- printMsg("There")
     } yield ()
+    println("IO not triggered yet")
     program.as(ExitCode.Success)
   }
 
