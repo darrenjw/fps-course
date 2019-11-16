@@ -4,7 +4,7 @@
 
 Materials for registered participants of the course "Category theory for pure functional programming in Scala". The course notes are not publicly available.
 
-I occasionally run this course as in-house training for Scala developer teams (ideally northern England/southern Scotland). [Email me](mailto:darrenjwilkinson@btinternet.com) if you are interested in this.
+**I occasionally run this course as in-house training for Scala developer teams (ideally northern England/southern Scotland). [Email me](mailto:darrenjwilkinson@btinternet.com) if you are interested in this. Also note that I run an introductory course on [Scala for Statistical Computing and Data Science](https://github.com/darrenjw/scala-course).**
 
 * [Course outline](Outline.md)
 * [Fragments](fragments/) - code blocks extracted from the course notes
