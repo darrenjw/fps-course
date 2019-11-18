@@ -4,6 +4,8 @@ mylist.scala
 An immutable linked list data type from scratch
 */
 
+import annotation.tailrec
+
 // Base trait
 trait MyList[+A] {
 
@@ -14,12 +16,21 @@ trait MyList[+A] {
 
   //def ::[B <: A](a: B): MyList[A] = MyCons(a, this)
 
+  // Not stack safe
   def map[B](f: A => B): MyList[B] = this match {
     case MyNil        => MyNil
     case MyCons(a, l) => MyCons(f(a), l.map(f))
   }
 
-  // do foldLeft next...
+  @tailrec
+  final def foldLeft[B](b: B)(f: (B, A) => B): B = this match {
+    case MyNil => b
+    case MyCons(a, l) => l.foldLeft(f(b, a))(f)
+  }
+
+  // reverse
+
+  // foldRight
 
 }
 
@@ -38,8 +49,11 @@ object MyList {
 
 }
 
+// intList
 
 
+
+// Application object
 object MyListApp {
 
   def main(args: Array[String]): Unit = {
@@ -50,6 +64,7 @@ object MyListApp {
     //println(("a" :: "b" :: "c" :: MyNil).show)
     println((MyCons("a", MyCons("b", MyCons("c", MyNil)))).show)
     println((l map (_*2)).show)
+    println(l.foldLeft(0)(_+_))
   }
 
 }
