@@ -14,14 +14,7 @@ trait MyList[+A] {
     case MyCons(a, l) => a.toString + " :: " + l.toString
   }
 
-  // Cons operator
   def ::[B >: A](a: B): MyList[B] = MyCons(a, this)
-
-  // UNSAFE
-  def map[B](f: A => B): MyList[B] = this match {
-    case MyNil        => MyNil
-    case MyCons(a, l) => f(a) :: l.map(f)
-  }
 
   @tailrec
   final def foldLeft[B](b: B)(f: (B, A) => B): B = this match {
@@ -29,30 +22,44 @@ trait MyList[+A] {
     case MyCons(a, l) => l.foldLeft(f(b, a))(f)
   }
 
-  // UNSAFE
-  def foldRight[B](b: B)(f: (A, B) => B): B = ???
+  // Not stack-safe but requires some kind of trampolining to fix
+  def foldRight[B](b: B)(f: (A, B) => B): B = this match {
+    case MyNil => b
+    case MyCons(a, l) => f(a, l.foldRight(b)(f))
+  }
 
   // def foldRight[B](lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B]
 
-  // UNSAFE
-  def concat[B >: A](lb: MyList[B]): MyList[B] = this match {
-    case MyNil => lb
-    case MyCons(a, la) => a :: la.concat(lb)
+  def reverse: MyList[A] = foldLeft(MyNil: MyList[A]){ case (b, a) => a :: b }
+
+  def mapUnsafe[B](f: A => B): MyList[B] = this match {
+    case MyNil        => MyNil
+    case MyCons(a, l) => f(a) :: l.mapUnsafe(f)
   }
+
+  def map[B](f: A => B): MyList[B] = this.reverse.
+    foldLeft(MyNil: MyList[B]){ case (b, a) => f(a) :: b }
+
+  def concatUnsafe[B >: A](lb: MyList[B]): MyList[B] = this match {
+    case MyNil => lb
+    case MyCons(a, la) => a :: la.concatUnsafe(lb)
+  }
+
+  def concat[B >: A](lb: MyList[B]): MyList[B] = this.reverse.
+    foldLeft(lb){ case (b, a) => a :: b }
 
   def ++[B >: A](lb: MyList[B]): MyList[B] = this.concat(lb)
 
-  // reverse
+  def flatMap[B](f: A => MyList[B]): MyList[B] = this.reverse.
+    foldLeft(MyNil: MyList[B]){ case (b, a) => f(a) ++ b }
+
+  def coflatMap[B](f: MyList[A] => B): MyList[B] = ???
 
   // scanLeft (safe and unsafe?)
 
-  // safe map
-
-  // flatMap (safe and unsafe?)
+  // foldMap
 
   // traverse
-
-  // coflatMap
 
   // tailRecM
 
@@ -98,18 +105,28 @@ object MyListApp {
     println(MyList.pure(2))
     println(("a" :: "b" :: "c" :: MyNil))
     println(l map (_*2))
+    println(l flatMap(a => a :: 2*a :: MyNil))
+    println(l mapUnsafe (_*2))
     println(l map (_.toDouble))
     println(l.foldLeft(0)(_+_))
+    println(l.foldRight(0)(_+_))
+    println(l.foldLeft(0)(_-_))
+    println(l.foldRight(0)(_-_))
+    println(MyList.intList(4) concatUnsafe MyList.intList(6))
     println(MyList.intList(4) concat MyList.intList(6))
     println(MyList.intList(4) ++ MyList.intList(6))
+    println(MyList.intList(6).reverse)
 
     val smallList = MyList.intList(10)
     println(smallList)
     val medList = MyList.intListUnsafe(1000)
     val bigList = MyList.intList(100000)
     println(bigList.foldLeft(0)(_+_))
-    val mapped = medList map (_*2)
+    val mapped = bigList map (_*2)
     
+    bigList concat bigList
+
+
   }
 
 }
