@@ -11,12 +11,14 @@ trait MyList[+A] {
     case MyCons(a, l) => a.toString + " :: " + l.show
   }
 
-  def ::[A](a: A) = MyCons(a, this)
+  //def ::[A](a: A): List[A] = MyCons(a, this)
 
-//  def map[B](f: A => B): List[B] = this match {
-//    case MyNil        => (MyNil: List[B])
-//    case MyCons(a, l) => f(a) ::[B] l.map(f)
-//  }
+  def map[B](f: A => B): MyList[B] = this match {
+    case MyNil        => MyNil
+    case MyCons(a, l) => MyCons(f(a), l.map(f))
+  }
+
+  // do foldLeft next...
 
 }
 
@@ -37,10 +39,13 @@ object MyListApp {
 
 
   def main(args: Array[String]): Unit = {
-    val l = 1 :: 2 :: 3 :: MyNil
+    //val l = 1 :: 2 :: 3 :: MyNil
+    val l = MyCons(1, MyCons(2, MyCons(3, MyNil)))
     println(l.show)
     println(MyList.pure(2).show)
-    println(("a" :: "b" :: "c" :: MyNil).show)
+    //println(("a" :: "b" :: "c" :: MyNil).show)
+    println((MyCons("a", MyCons("b", MyCons("c", MyNil)))).show)
+    println((l map (_*2)).show)
   }
 
 }
