@@ -8,7 +8,7 @@ import annotation.tailrec
 // Base trait
 trait MyList[+A] {
 
-  // Not stack safe, but shouldn't use on big lists anyway
+  // Not stack safe, but shouldn't use on big lists, anyway
   override def toString: String = this match {
     case MyNil        => "MyNil"
     case MyCons(a, l) => a.toString + " :: " + l.toString
@@ -29,11 +29,20 @@ trait MyList[+A] {
     case MyCons(a, l) => l.foldLeft(f(b, a))(f)
   }
 
-  // concat (++ or ::: ?)
+  // UNSAFE
+  def foldRight[B](b: B)(f: (A, B) => B): B = ???
+
+  // def foldRight[B](lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B]
+
+  // UNSAFE
+  def concat[B >: A](lb: MyList[B]): MyList[B] = this match {
+    case MyNil => lb
+    case MyCons(a, la) => a :: la.concat(lb)
+  }
+
+  def ++[B >: A](lb: MyList[B]): MyList[B] = this.concat(lb)
 
   // reverse
-
-  // foldRight (unsafe)
 
   // scanLeft (safe and unsafe?)
 
@@ -64,7 +73,7 @@ object MyList {
 
   def intListUnsafe(to: Int, from: Int = 1): MyList[Int] =
     if (from > to) MyNil
-  else from :: intListUnsafe(to, from + 1)
+    else from :: intListUnsafe(to, from + 1)
 
   @tailrec
   def intList(to: Int, from: Int = 1, acc: MyList[Int] = MyNil): MyList[Int] =
@@ -76,7 +85,7 @@ object MyList {
 // TODO:
 // * Unit tests
 // * Property based tests
-// * Cats instances
+// * Cats instances (including Foldable)
 // * Test with cats-laws
 
 
@@ -91,12 +100,16 @@ object MyListApp {
     println(l map (_*2))
     println(l map (_.toDouble))
     println(l.foldLeft(0)(_+_))
+    println(MyList.intList(4) concat MyList.intList(6))
+    println(MyList.intList(4) ++ MyList.intList(6))
+
     val smallList = MyList.intList(10)
     println(smallList)
     val medList = MyList.intListUnsafe(1000)
     val bigList = MyList.intList(100000)
     println(bigList.foldLeft(0)(_+_))
     val mapped = medList map (_*2)
+    
   }
 
 }
