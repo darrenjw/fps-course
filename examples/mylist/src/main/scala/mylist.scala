@@ -4,6 +4,7 @@ mylist.scala
 An immutable linked list data type from scratch
 */
 
+// Base trait
 trait MyList[+A] {
 
   def show: String = this match {
@@ -11,7 +12,7 @@ trait MyList[+A] {
     case MyCons(a, l) => a.toString + " :: " + l.show
   }
 
-  //def ::[A](a: A): List[A] = MyCons(a, this)
+  //def ::[B <: A](a: B): MyList[A] = MyCons(a, this)
 
   def map[B](f: A => B): MyList[B] = this match {
     case MyNil        => MyNil
@@ -22,10 +23,13 @@ trait MyList[+A] {
 
 }
 
+// Nil object
 case object MyNil extends MyList[Nothing]
 
+// Cons data type
 case class MyCons[+A](a: A, l: MyList[A]) extends MyList[A]
 
+// Companion object
 object MyList {
 
   def apply[A](a: A): MyList[A] = pure(a)
@@ -34,9 +38,9 @@ object MyList {
 
 }
 
+
+
 object MyListApp {
-
-
 
   def main(args: Array[String]): Unit = {
     //val l = 1 :: 2 :: 3 :: MyNil
