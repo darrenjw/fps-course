@@ -23,6 +23,10 @@ class MyListSpec extends AnyFlatSpec with Matchers {
     smallList.reverse.reverse shouldBe smallList
   }
 
+  it should "size correctly" in {
+    smallList.size shouldBe 15
+  }
+
   it should "map" in {
     (1 :: 2 :: 3 :: MyNil) map (_*2) shouldBe 2 :: 4 :: 6 :: MyNil
   }
@@ -70,15 +74,39 @@ class MyListSpec extends AnyFlatSpec with Matchers {
 
 // Example property-based tests
 import org.scalatestplus.scalacheck._
+import org.scalacheck.Gen
+
+
 class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyChecks {
 
-  "An Int" should "combine commutatively" in {
-    forAll { (a: Int, b: Int) =>
-      (a + b) should be (b + a)
+  // might be able to define arbitrary instances (but doesn't seem to work)
+  //import org.scalacheck.ScalacheckShapeless._
+
+  val smallInt = Gen.choose(0, 100)
+
+  "A MyList" should "size correctly" in {
+    forAll(smallInt) { (n) =>
+        MyList.intList(n).size shouldBe n
+    }
+  }
+
+  "A List[Int]" should "reverse.reverse" in {
+    forAll { (l: List[Int]) =>
+      l.reverse.reverse shouldBe l
     }
   }
 
 
+
+  /*
+  "A MyList" should "size correctly" in {
+    forAll { (n: Int) =>
+      whenever ((n >= 0) && (n < 10000)) {
+        MyList.intList(n).size shouldBe n
+      }
+    }
+  }
+   */
 
 
 

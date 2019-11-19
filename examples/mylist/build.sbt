@@ -15,6 +15,7 @@ addCompilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.f
 libraryDependencies  ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.8" % "test",
   "org.scalactic" %% "scalactic" % "3.0.8",
+  "com.github.alexarchambault" %% "scalacheck-shapeless_1.14" % "1.2.3" % "test",
   "org.typelevel" %% "cats-core" % "2.0.0",
   "org.typelevel" %% "cats-free" % "2.0.0",
   "org.typelevel" %% "cats-laws" % "2.0.0",

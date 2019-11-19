@@ -37,12 +37,19 @@ trait MyList[+A] {
 
   def reverse: MyList[A] = foldLeft(MyNil: MyList[A]){ case (b, a) => a :: b }
 
+  def sizeUnsafe: Int = this match {
+    case MyNil         => 0
+    case MyCons(a, la) => 1 + la.sizeUnsafe
+  }
+
+  def size: Int = foldLeft(0){ case (b, a) => b + 1 }
+
   def mapUnsafe[B](f: A => B): MyList[B] = this match {
     case MyNil        => MyNil
     case MyCons(a, l) => f(a) :: l.mapUnsafe(f)
   }
 
-  def map[B](f: A => B): MyList[B] = this.reverse.
+  def map[B](f: A => B): MyList[B] = reverse.
     foldLeft(MyNil: MyList[B]){ case (b, a) => f(a) :: b }
 
   def concatUnsafe[B >: A](lb: MyList[B]): MyList[B] = this match {
@@ -80,8 +87,6 @@ trait MyList[+A] {
       }}._2
 
   def coflatten = coflatMap(identity)
-
-  // size (safe and unsafe)
 
   // scanLeft
 
@@ -151,16 +156,16 @@ object MyListApp {
     println(MyList.intList(4) concat MyList.intList(6))
     println(MyList.intList(4) ++ MyList.intList(6))
     println(MyList.intList(6).reverse)
-
     val smallList = MyList.intList(10)
-    println(smallList)
     val medList = MyList.intListUnsafe(1000)
     val bigList = MyList.intList(100000)
+    println(smallList)
     println(bigList.foldLeft(0)(_+_))
     val mapped = bigList map (_*2)
     medList.coflatten.flatten
     medList coflatMap (_.foldLeft(0)(_+_))
-
+    println(medList.sizeUnsafe)
+    println(bigList.size)
   }
 
 }
