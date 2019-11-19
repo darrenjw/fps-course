@@ -81,6 +81,7 @@ trait MyList[+A] {
 
   def coflatten = coflatMap(identity)
 
+  // size (safe and unsafe)
 
   // scanLeft
 
