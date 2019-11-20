@@ -74,14 +74,16 @@ class MyListSpec extends AnyFlatSpec with Matchers {
 
 // Example property-based tests
 import org.scalatestplus.scalacheck._
-import org.scalacheck.Gen
-
+import org.scalacheck._
+import Gen._
+import Arbitrary.arbitrary
 
 class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyChecks {
 
-  // might be able to define arbitrary instances (but doesn't seem to work)
+  // This might be able to automatically define arbitrary instances (but doesn't seem to work)
   //import org.scalacheck.ScalacheckShapeless._
 
+  // start with manual building of lists
   val smallInt = Gen.choose(0, 100)
 
   "A MyList" should "size correctly" in {
@@ -90,11 +92,32 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
-  "A List[Int]" should "reverse.reverse" in {
-    forAll { (l: List[Int]) =>
+  // now create a generator for random instances of MyList[Int]
+  val genNil = const(MyNil: MyList[Int])
+  val genIntCons = for {
+    h <- arbitrary[Int]
+    t <- genIntList
+  } yield MyCons(h, t)
+  def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons))
+
+  "A MyList[Int]" should "reverse.reverse" in {
+    forAll(genIntList) { (l) =>
       l.reverse.reverse shouldBe l
     }
   }
+
+  // create an Arbitrary instance for MyList[Int]
+  implicit lazy val arbIntList: Arbitrary[MyList[Int]] = Arbitrary(genIntList)
+
+  "An arbitrary MyList[Int]" should "reverse.reverse" in {
+    forAll { (l: MyList[Int]) =>
+      //println(l)
+      l.reverse.reverse shouldBe l
+    }
+  }
+
+
+
 
 
 
