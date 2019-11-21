@@ -98,7 +98,9 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     h <- arbitrary[Int]
     t <- genIntList
   } yield MyCons(h, t)
-  def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons))
+  //def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons))
+  // bias towards cons for longer lists:
+  def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons), lzy(genIntCons), lzy(genIntCons), lzy(genIntCons))
 
   // Can use the generator explicity to generate random instances
   "A MyList[Int]" should "reverse.reverse" in {
