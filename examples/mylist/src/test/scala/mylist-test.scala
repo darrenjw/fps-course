@@ -120,9 +120,29 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
+  it should "maintain size after mapping" in {
+    forAll { (l: MyList[Int]) =>
+      l.map(_*2).size shouldBe l.size
+    }
+  }
 
+  it should "have size = sizeUnsafe" in {
+    forAll { (l: MyList[Int]) =>
+      l.size shouldBe l.sizeUnsafe
+    }
+  }
 
+  it should "have foldLeft = foldRight for associative operation" in {
+    forAll { (l: MyList[Int]) =>
+      l.foldLeft(0)(_+_) shouldBe l.foldRight(0)(_+_)
+    }
+  }
 
+  it should "have map = mapUnsafe" in {
+    forAll { (l: MyList[Int]) =>
+      l.map(_*2) shouldBe l.mapUnsafe(_*2)
+    }
+  }
 
 
   /*
