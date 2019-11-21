@@ -144,6 +144,30 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
+  it should "have reverse = reverseUnsafe" in {
+    forAll { (l: MyList[Int]) =>
+      l.reverse shouldBe l.reverseUnsafe
+    }
+  }
+
+  it should "have concat = concatUnsafe" in {
+    forAll { (l1: MyList[Int], l2: MyList[Int]) =>
+      l1.concat(l2) shouldBe l1.concatUnsafe(l2)
+    }
+  }
+
+  it should "have flatMap = flatMapUnsafe" in {
+    forAll { (l: MyList[Int]) =>
+      l.flatMap(i => i :: i+1 :: i*2 :: MyNil) shouldBe l.flatMapUnsafe(i => i :: i+1 :: i*2 :: MyNil)
+    }
+  }
+
+  it should "have coflatMap = coflatMapUnsafe" in {
+    forAll { (l: MyList[Int]) =>
+      l.coflatMap(_.foldLeft(0)(_+_)) shouldBe l.coflatMapUnsafe(_.foldLeft(0)(_+_))
+    }
+  }
+
 
   /*
   "A MyList" should "size correctly" in {
