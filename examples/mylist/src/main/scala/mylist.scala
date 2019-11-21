@@ -28,6 +28,7 @@ trait MyList[+A] {
     case MyCons(a, l) => f(a, l.foldRight(b)(f))
   }
 
+  // Cats type signature:
   // def foldRight[B](lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B]
 
   def reverseUnsafe: MyList[A] = this match {
@@ -88,6 +89,8 @@ trait MyList[+A] {
 
   def coflatten = coflatMap(identity)
 
+  // filter
+
   // scanLeft
 
   // foldMap
@@ -95,6 +98,20 @@ trait MyList[+A] {
   // traverse
 
   // tailRecM
+
+  // drop
+
+  // take
+
+  // dropWhile
+
+  // takeWhile
+
+  // headOption
+
+  // tailOption
+
+  // applyOption?!
 
 }
 
@@ -125,7 +142,7 @@ object MyList {
 // TODO:
 // * Unit tests
 // * Property based tests
-// * Cats instances (including Foldable)
+// * Cats instances (including Monad, CoFlatMap, Foldable and Traverse)
 // * Test with cats-laws
 
 

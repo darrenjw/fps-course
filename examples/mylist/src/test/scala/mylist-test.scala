@@ -83,7 +83,7 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
   // This might be able to automatically define arbitrary instances (but doesn't seem to work)
   //import org.scalacheck.ScalacheckShapeless._
 
-  // start with manual building of lists
+  // Start with manual building of lists
   val smallInt = Gen.choose(0, 100)
 
   "A MyList" should "size correctly" in {
@@ -92,7 +92,7 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
-  // now create a generator for random instances of MyList[Int]
+  // Now create a generator for random instances of MyList[Int]
   val genNil = const(MyNil: MyList[Int])
   val genIntCons = for {
     h <- arbitrary[Int]
@@ -100,15 +100,17 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
   } yield MyCons(h, t)
   def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons))
 
+  // Can use the generator explicity to generate random instances
   "A MyList[Int]" should "reverse.reverse" in {
     forAll(genIntList) { (l) =>
       l.reverse.reverse shouldBe l
     }
   }
 
-  // create an Arbitrary instance for MyList[Int]
+  // Create an Arbitrary instance for MyList[Int]
   implicit lazy val arbIntList: Arbitrary[MyList[Int]] = Arbitrary(genIntList)
 
+  // Can use the Arbitrary instance to implicitly generate random instances
   "An arbitrary MyList[Int]" should "reverse.reverse" in {
     forAll { (l: MyList[Int]) =>
       //println(l)
