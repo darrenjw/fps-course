@@ -42,6 +42,7 @@
     * [Category theory](https://www.math3ma.com/categories/category-theory)
 * [The Catsters (youtube)](https://www.youtube.com/user/TheCatsters)
     * [Yorgey's guide to the Catsters](https://byorgey.wordpress.com/catsters-guide-2/)
+* [Notes on Category Theory in Scala 3 (Dotty)](https://typista.org/categories-in-dotty/)
 
 #### Category theory for programmers, by [Bartosz Milewski](https://bartoszmilewski.com/)
 

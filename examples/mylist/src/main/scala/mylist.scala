@@ -8,7 +8,7 @@ import annotation.tailrec
 // Base trait
 trait MyList[+A] {
 
-  // Not stack safe, but shouldn't use on big lists, anyway
+  // Not stack safe, but shouldn't use this method on big lists, anyway
   override def toString: String = this match {
     case MyNil        => "MyNil"
     case MyCons(a, l) => a.toString + " :: " + l.toString
@@ -140,8 +140,11 @@ object MyList {
 }
 
 // TODO:
-// * Unit tests
-// * Property based tests
+
+// * Methods - got enough for now, but plenty more to add
+// * Unit tests - got quite a few
+// * Property based tests - got some, but should really have more
+
 // * Cats instances (including Monad, CoFlatMap, Foldable and Traverse)
 // * Test with cats-laws
 
