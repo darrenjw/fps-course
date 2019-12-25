@@ -30,6 +30,7 @@
 	* [Monocle](https://www.scala-exercises.org/monocle)
 * [Herding Cats](http://eed3si9n.com/herding-cats/)
 * [Foundation of functional programming course](https://github.com/fp-tower/foundation)
+* [Notes on Category Theory in Scala 3 (Dotty)](https://typista.org/categories-in-dotty/)
 
 
 ### Haskell/general
@@ -42,7 +43,6 @@
     * [Category theory](https://www.math3ma.com/categories/category-theory)
 * [The Catsters (youtube)](https://www.youtube.com/user/TheCatsters)
     * [Yorgey's guide to the Catsters](https://byorgey.wordpress.com/catsters-guide-2/)
-* [Notes on Category Theory in Scala 3 (Dotty)](https://typista.org/categories-in-dotty/)
 
 #### Category theory for programmers, by [Bartosz Milewski](https://bartoszmilewski.com/)
 
