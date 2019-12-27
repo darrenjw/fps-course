@@ -61,9 +61,16 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
-  it should "have foldLeft = foldRight for associative operation" in {
+  it should "have foldLeft = foldRightUnsafe for associative operation" in {
     forAll { (l: MyList[Int]) =>
-      l.foldLeft(0)(_+_) shouldBe l.foldRight(0)(_+_)
+      l.foldLeft(0)(_+_) shouldBe l.foldRightUnsafe(0)(_+_)
+    }
+  }
+
+  import cats.Eval
+  it should "have foldRight = foldRightUnsafe" in {
+    forAll { (l: MyList[Int]) =>
+      l.foldRight(Eval.always(0))((a, lb) => lb.map(a - _)).value shouldBe l.foldRightUnsafe(0)(_ - _)
     }
   }
 
@@ -97,44 +104,10 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
-
-
-}
-
-import cats._
-import cats.implicits._
-import org.scalatest.funsuite.AnyFunSuite
-import org.typelevel.discipline.scalatest.Discipline
-import org.scalacheck.ScalacheckShapeless._
-
-class MyListLawTests extends AnyFunSuite with Discipline {
-
-  import Instances._
-
-  // Create a generator for random instances of MyList[Int] (copied from above - should factor out)
-  val genNil = const(MyNil: MyList[Int])
-  val genIntCons = for {
-    h <- arbitrary[Int]
-    t <- genIntList
-  } yield MyCons(h, t)
-  //def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons))
-  // bias towards cons for longer lists:
-  def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons), lzy(genIntCons), lzy(genIntCons), lzy(genIntCons))
-  // Create an Arbitrary instance for MyList[Int]
-  implicit lazy val arbIntList: Arbitrary[MyList[Int]] = Arbitrary(genIntList)
-  // Need an equality for Tree
-  implicit def eqMyList[A: Eq]: Eq[MyList[A]] = Eq.fromUniversalEquals
-
-
-  import cats.laws.discipline.MonoidKTests
-  checkAll("MyList.MonoidKLaws", MonoidKTests[MyList].monoidK[Int])
-  import cats.laws.discipline.FunctorTests
-  checkAll("MyList.FunctorLaws", FunctorTests[MyList].functor[Int, Int, String])
-
-
-
+  // TODO: More PBTs here...
 
 }
+
 
 
 // eof

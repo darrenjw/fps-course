@@ -23,13 +23,15 @@ trait MyList[+A] {
   }
 
   // Not stack-safe but requires some kind of trampolining to fix
-  def foldRight[B](b: B)(f: (A, B) => B): B = this match {
+  def foldRightUnsafe[B](b: B)(f: (A, B) => B): B = this match {
     case MyNil => b
-    case MyCons(a, l) => f(a, l.foldRight(b)(f))
+    case MyCons(a, l) => f(a, l.foldRightUnsafe(b)(f))
   }
 
-  // Cats type signature:
-  // def foldRight[B](lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B]
+  // Make stack safe using Eval
+  import cats.Eval
+  def foldRight[B](lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+    foldRightUnsafe(Eval.defer(lb))((a: A, eb: Eval[B]) => Eval.defer(f(a, eb)))
 
   def reverseUnsafe: MyList[A] = this match {
     case MyNil => MyNil
@@ -140,12 +142,11 @@ object MyList {
 }
 
 // TODO:
-
 // * Methods - got enough for now, but plenty more to add
 // * Unit tests - got quite a few
 // * Property based tests - got some, but should really have more
-// * Cats instances (including Monoid, Functor, Monad, CoFlatMap, Foldable and Traverse)
-// * Test with cats-laws
+// * Cats instances (including Monoid, Functor, Monad, CoflatMap, Foldable and Traverse) - some but need more
+// * Test with cats-laws - some by need Cogen instance
 
 
 // Application object
@@ -162,9 +163,9 @@ object MyListApp {
     println(l mapUnsafe (_*2))
     println(l map (_.toDouble))
     println(l.foldLeft(0)(_+_))
-    println(l.foldRight(0)(_+_))
+    println(l.foldRightUnsafe(0)(_+_))
     println(l.foldLeft(0)(_-_))
-    println(l.foldRight(0)(_-_))
+    println(l.foldRightUnsafe(0)(_-_))
     println(l flatMapUnsafe (a => a :: 2*a :: MyNil))
     println(l flatMap (a => a :: 2*a :: MyNil))
     println(l coflatMapUnsafe (_.foldLeft(0)(_+_)))

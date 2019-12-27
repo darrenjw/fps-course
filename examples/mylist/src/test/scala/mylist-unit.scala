@@ -36,8 +36,8 @@ class MyListSpec extends AnyFlatSpec with Matchers {
     (1 :: 2 :: 3 :: MyNil).foldLeft(0)(_+_) shouldBe 6
   }
 
-  it should "foldRight" in {
-    (1 :: 2 :: 3 :: MyNil).foldRight(0)(_+_) shouldBe 6
+  it should "foldRightUnsafe" in {
+    (1 :: 2 :: 3 :: MyNil).foldRightUnsafe(0)(_+_) shouldBe 6
   }
 
   it should "foldLeft (non-assoc)" in {
@@ -45,7 +45,7 @@ class MyListSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "foldRight (non-assoc)" in {
-    (1 :: 2 :: 3 :: MyNil).foldRight(0)(_-_) shouldBe 2
+    (1 :: 2 :: 3 :: MyNil).foldRightUnsafe(0)(_-_) shouldBe 2
   }
 
   it should "flatMap" in {
