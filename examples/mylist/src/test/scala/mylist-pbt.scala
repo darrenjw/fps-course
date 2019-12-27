@@ -1,6 +1,6 @@
 // Example property-based tests
 
-import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.flatspec.{AnyFlatSpec}
 import org.scalatest.matchers.should.Matchers
 
 import org.scalatestplus.scalacheck._
@@ -101,6 +101,21 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
 
 }
 
+import org.scalatest.funsuite.AnyFunSuite
+import org.typelevel.discipline.scalatest.Discipline
+
+class TreeLawTests extends AnyFunSuite with Discipline {
+
+  import Instances._
+
+  import cats.laws.discipline.MonoidKTests
+  checkAll("MyList.MonoidKLaws", MonoidKTests[MyList].monoidK[Int,Int,String])
+
+  import cats.laws.discipline.FunctorTests
+
+
+
+}
 
 
 // eof

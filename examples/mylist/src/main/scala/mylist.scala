@@ -144,8 +144,7 @@ object MyList {
 // * Methods - got enough for now, but plenty more to add
 // * Unit tests - got quite a few
 // * Property based tests - got some, but should really have more
-
-// * Cats instances (including Monad, CoFlatMap, Foldable and Traverse)
+// * Cats instances (including Monoid, Functor, Monad, CoFlatMap, Foldable and Traverse)
 // * Test with cats-laws
 
 
