@@ -101,17 +101,36 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
 
 }
 
+import cats._
+import cats.implicits._
 import org.scalatest.funsuite.AnyFunSuite
 import org.typelevel.discipline.scalatest.Discipline
+import org.scalacheck.ScalacheckShapeless._
 
-class TreeLawTests extends AnyFunSuite with Discipline {
+class MyListLawTests extends AnyFunSuite with Discipline {
 
   import Instances._
 
-  import cats.laws.discipline.MonoidKTests
-  checkAll("MyList.MonoidKLaws", MonoidKTests[MyList].monoidK[Int,Int,String])
+  // Create a generator for random instances of MyList[Int] (copied from above - should factor out)
+  val genNil = const(MyNil: MyList[Int])
+  val genIntCons = for {
+    h <- arbitrary[Int]
+    t <- genIntList
+  } yield MyCons(h, t)
+  //def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons))
+  // bias towards cons for longer lists:
+  def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons), lzy(genIntCons), lzy(genIntCons), lzy(genIntCons))
+  // Create an Arbitrary instance for MyList[Int]
+  implicit lazy val arbIntList: Arbitrary[MyList[Int]] = Arbitrary(genIntList)
+  // Need an equality for Tree
+  implicit def eqMyList[A: Eq]: Eq[MyList[A]] = Eq.fromUniversalEquals
 
+
+  import cats.laws.discipline.MonoidKTests
+  checkAll("MyList.MonoidKLaws", MonoidKTests[MyList].monoidK[Int])
   import cats.laws.discipline.FunctorTests
+  checkAll("MyList.FunctorLaws", FunctorTests[MyList].functor[Int, Int, String])
+
 
 
 

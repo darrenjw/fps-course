@@ -18,6 +18,11 @@ object Instances {
     def empty[A]: MyList[A] = MyNil
   }
 
+  implicit val functorMyList: Functor[MyList] = new Functor[MyList] {
+    def map[A,B](fa: MyList[A])(f: A => B): MyList[B] = fa.map(f)
+  }
+
+
 }
 
 // eof
