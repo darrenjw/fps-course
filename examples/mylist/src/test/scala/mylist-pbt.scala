@@ -10,7 +10,7 @@ import Arbitrary.arbitrary
 
 class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyChecks {
 
-  // This might be able to automatically define arbitrary instances (but doesn't seem to work)
+  // This should automatically define arbitrary instances (but doesn't seem to work)
   //import org.scalacheck.ScalacheckShapeless._
 
   // Start with manual building of lists
@@ -22,27 +22,45 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
-  // Now create a generator for random instances of MyList[Int]
-  val genNil = const(MyNil: MyList[Int])
-  val genIntCons = for {
-    h <- arbitrary[Int]
-    t <- genIntList
+  // Gen for MyList[T], where T is Arbitrary
+  def genNil[T: Arbitrary] = const(MyNil: MyList[T])
+  def genCons[T: Arbitrary] = for {
+    h <- arbitrary[T]
+    t <- genList[T]
   } yield MyCons(h, t)
-  //def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons))
-  // bias towards cons for longer lists:
-  def genIntList: Gen[MyList[Int]] = Gen.oneOf(genNil, lzy(genIntCons), lzy(genIntCons), lzy(genIntCons), lzy(genIntCons))
+  // def genList[T: Arbitrary]: Gen[MyList[T]] = Gen.oneOf(genNil[T], lzy(genCons[T]))
+  // bias to longer lists...
+  def genList[T: Arbitrary]: Gen[MyList[T]] = Gen.oneOf(genNil[T], lzy(genCons[T]), lzy(genCons[T]), lzy(genCons[T]), lzy(genCons[T]))
 
   // Can use the generator explicity to generate random instances
   "A MyList[Int]" should "reverse.reverse" in {
-    forAll(genIntList) { (l) =>
+    forAll(genList[Int]) { (l) =>
       l.reverse.reverse shouldBe l
     }
   }
 
-  // Create an Arbitrary instance for MyList[Int]
-  implicit lazy val arbIntList: Arbitrary[MyList[Int]] = Arbitrary(genIntList)
+  "A MyList[String]" should "reverse.reverse" in {
+    forAll(genList[String]) { (l) =>
+      l.reverse.reverse shouldBe l
+    }
+  }
+
+  "A MyList[Double]" should "reverse.reverse" in {
+    forAll(genList[Double]) { (l) =>
+      l.reverse.reverse shouldBe l
+    }
+  }
+
+  // Create an Arbitrary instance for MyList[T]
+  implicit def arbMyList[T: Arbitrary]: Arbitrary[MyList[T]] = Arbitrary(genList[T])
 
   // Can use the Arbitrary instance to implicitly generate random instances
+  "An arbitrary MyList[String]" should "reverse.reverse" in {
+    forAll { (l: MyList[String]) =>
+      l.reverse.reverse shouldBe l
+    }
+  }
+
   "An arbitrary MyList[Int]" should "reverse.reverse" in {
     forAll { (l: MyList[Int]) =>
       l.reverse.reverse shouldBe l

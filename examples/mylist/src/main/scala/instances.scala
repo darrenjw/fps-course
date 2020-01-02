@@ -30,6 +30,13 @@ object Instances {
     def coflatMap[A, B](fa: MyList[A])(f: MyList[A] => B): MyList[B] = fa.coflatMap(f)
   }
 
+  // Monad instance
+  implicit val monadMyList: Monad[MyList] = new Monad[MyList] {
+    def pure[A](a: A): MyList[A] = a :: MyNil
+    def flatMap[A,B](fa: MyList[A])(f: A => MyList[B]): MyList[B] = fa.flatMap(f)
+    def tailRecM[A, B](a: A)(f: A => MyList[Either[A,B]]): MyList[B] = ???
+  }
+
   // Foldable instance
   implicit val foldableMyList: Foldable[MyList] = new Foldable[MyList] {
     def foldLeft[A, B](fa: MyList[A], b: B)(f: (B, A) => B): B = fa.foldLeft(b)(f)
