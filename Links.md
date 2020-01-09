@@ -54,7 +54,7 @@
 	* [Series 2](https://www.youtube.com/playlist?list=PLbgaMIhjbmElia1eCEZNvsVscFef9m0dm)
 	* [Series 3](https://www.youtube.com/playlist?list=PLbgaMIhjbmEn64WVX4B08B4h2rOtueWIL)
 
-
+* [Programming with categories](http://brendanfong.com/programmingcats.html) - MIT online course, with notes and videos, by Brendan Fong, Bartosz Milewski, and David Spivak, covering related topics.
 
 ## Misc
 
