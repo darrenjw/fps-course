@@ -1,31 +1,32 @@
 // Chunk: 
-import org.scalatestplus.scalacheck._
+import org.scalatestplus.scalacheck.*
 
-class MyPropertyTests extends AnyFlatSpec with 
-  Matchers with ScalaCheckPropertyChecks {
+class MyPropTests extends propspec.AnyPropSpec
+  with ScalaCheckPropertyChecks
+  with TableDrivenPropertyChecks with should.Matchers:
 // End chunk
 
 // Chunk: 
-  "math.sqrt" should "be a square root" in {
+  property("math.sqrt should be a square root") {
     forAll { (d: Double) =>
       whenever (d >= 0.0) {
         val s = math.sqrt(d)
-        (s*s) shouldBe (d +- 1.0e-8*d)
+        (s*s) should be (d +- 1.0e-8*d)
       }
     }
   }
 // End chunk
 
 // Chunk: 
-  "An Int" should "combine commutatively" in {
+  property("An Int should combine commutatively") {
     forAll { (a: Int, b: Int) =>
       (a |+| b) should be (b |+| a)
     }
   }
 
-  it should "invert" in {
+  property("An Int should invert") {
     forAll { (a: Int) =>
-      (a |+| a.inverse) shouldBe Monoid[Int].empty
+      (a |+| a.inverse()) shouldBe Monoid[Int].empty
     }
   }
 // End chunk

@@ -1,6 +1,6 @@
 // Chunk:  mdoc
-import cats._
-import cats.implicits._
+import cats.*
+import cats.implicits.*
 
 Monoid[Int].empty
 Monoid[Int].combine(2,3)

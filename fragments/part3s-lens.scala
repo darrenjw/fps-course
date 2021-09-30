@@ -18,11 +18,10 @@ employee.copy(
 // End chunk
 
 // Chunk:  mdoc
-import monocle._
-import monocle.macros._
+import monocle.*
+import monocle.syntax.all.*
 
-GenLens[Employee](_.company.address.street.name).modify(
-  _.capitalize)(employee)
+employee.focus(_.company.address.street.name).modify(_.capitalize)
 // End chunk
 
 // Chunk:  mdoc
@@ -47,29 +46,17 @@ def modify(f: B => B): A => A =
 // End chunk
 
 // Chunk:  mdoc
-val d2tup = GenIso.fields[Dog]
-d2tup.get(Dog("rover", 10))
-d2tup.reverseGet(("spot", 1))
-// End chunk
-
-// Chunk:  mdoc
 val dog = Dog("rover", 10)
 val dogName = Lens[Dog, String](_.name)(
   n => d => d.copy(name = n))
 dogName.get(dog)
-dogName.set("Rover")(dog)
+dogName.replace("Rover")(dog)
 dogName.modify(_.capitalize)(dog)
-// End chunk
-
-// Chunk:  mdoc
-val dogAge = GenLens[Dog](_.age)
-val birthday = dogAge.modify(_ + 1)
-birthday(dog)
 // End chunk
 
 // Chunk:  mdoc:reset:invisible
 import monocle._
-import monocle.macros._
+import monocle.syntax.all._
 // End chunk
 
 // Chunk:  mdoc
@@ -92,20 +79,14 @@ petDog2.getOption(Dog("Rover", 10))
 // End chunk
 
 // Chunk:  mdoc
-val dogAge = GenLens[Dog](_.age)
-val petDogAge = petDog composeLens dogAge
+val dogAge = Lens[Dog, Int](_.age)(a => d => d.copy(age = a))
+val petDogAge = petDog andThen dogAge
 petDogAge.getOption(Dog("Rover", 10))
 petDogAge.getOption(Cat("Mog", 12))
 // End chunk
 
 // Chunk:  mdoc
-petDogAge.set(5)(Dog("Rover", 10))
-petDogAge.set(5)(Cat("Mog", 12))
-// End chunk
-
-// Chunk:  mdoc
-val petCatAge =  GenPrism[Pet, Cat] composeLens 
-  GenLens[Cat](_.age)
-petCatAge.set(5)(Cat("Mog", 12))
+petDogAge.replace(5)(Dog("Rover", 10))
+petDogAge.replace(5)(Cat("Mog", 12))
 // End chunk
 

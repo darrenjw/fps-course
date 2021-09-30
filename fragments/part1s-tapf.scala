@@ -10,11 +10,10 @@ stringLength(aLongString)
 // Chunk:  mdoc
 def convertToK: Int => Double = i => i.toDouble/1024
 
-def stringLengthInK1(s: String): Double = {
+def stringLengthInK1(s: String): Double =
   val l = stringLength(s)
   val lk = convertToK(l)
   lk
-}
 
 stringLengthInK1(aLongString)
 // End chunk
@@ -41,10 +40,9 @@ stringLengthInK4(aLongString)
 // End chunk
 
 // Chunk:  mdoc
-def myLength[T](l: List[T]): Int = l match {
+def myLength[T](l: List[T]): Int = l match
   case Nil => 0
   case x :: xs => 1 + myLength(xs)
-}
 
 myLength(List(1, 2, 3))
 // End chunk
@@ -64,37 +62,39 @@ f(3)
 // End chunk
 
 // Chunk:  mdoc
-val f1 = new Function1[Int, Double] {
+val f1 = new Function1[Int, Double]:
   def apply(x: Int) = x.toDouble
-}
+
 f1(5)
 // End chunk
 
 // Chunk:  mdoc
-val sr = new PartialFunction[Double, Double] {
+val sr = new PartialFunction[Double, Double]:
   def apply(x: Double) = math.sqrt(x)
   def isDefinedAt(x: Double) = x >= 0
-}
+
 sr.isDefinedAt(2.0)
 sr(2.0)
 sr.isDefinedAt(-1.0)
 // End chunk
 
 // Chunk:  mdoc
-sealed trait Pet{ val age: Int}
-case class Cat(age: Int) extends Pet
-case class Dog(age: Int) extends Pet
+enum Pet:
+  case Cat(age: Int)
+  case Dog(age: Int)
 
-val dogYears: PartialFunction[Pet,Int] = { 
-  case Dog(a) => a*7 }
+import Pet.*
+
+val dogYears: PartialFunction[Pet,Int] =
+  case Dog(a) => a*7
 dogYears.isDefinedAt(Dog(3))
 dogYears(Dog(3))
 dogYears.isDefinedAt(Cat(3))
 // End chunk
 
 // Chunk:  mdoc
-val catYears: PartialFunction[Pet,Int] = {
-  case Cat(a) => a*6 }
+val catYears: PartialFunction[Pet,Int] =
+  case Cat(a) => a*6
 catYears.isDefinedAt(Dog(3))
 catYears.isDefinedAt(Cat(3))
 catYears(Cat(3))

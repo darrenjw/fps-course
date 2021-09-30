@@ -1,6 +1,6 @@
 // Chunk:  mdoc:silent
-import cats._
-import cats.implicits._
+import cats.*
+import cats.implicits.*
 
 val listOptionFunctor = Functor[List].compose[Option]
 // End chunk
