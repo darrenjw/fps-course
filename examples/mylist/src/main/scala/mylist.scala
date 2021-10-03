@@ -91,6 +91,9 @@ trait MyList[+A] {
 
   def coflatten = coflatMap(identity)
 
+  // convert to a Scala immutable List...
+  def toList: List[A] = foldLeft(Nil: List[A]){case (la, a) => a :: la}
+
   // filter
 
   // scanLeft
