@@ -1,20 +1,18 @@
 // Chunk:  mdoc
-import cats._
-import cats.implicits._
+import cats.*
+import cats.implicits.*
 import cats.effect.IO
+import cats.effect.unsafe.implicits.global
+
 def printMsg(s: String): IO[Unit] = IO{ println(s) }
-val io = for {
+val io = for
   _ <- printMsg("Hi")
   _ <- printMsg("There")
-} yield ()
+yield ()
 io.unsafeRunSync()
 // End chunk
 
 // Chunk:  mdoc
-import cats.effect.ContextShift
-import scala.concurrent.ExecutionContext.Implicits.global
-implicit val contextShift = IO.contextShift(global)
-
 val ioA = printMsg("A")
 val ioB = printMsg("B")
 val ioC = printMsg("C")

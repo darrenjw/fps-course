@@ -3,6 +3,9 @@ val a = 3
 val b = false
 val p = (a, b)
 p._1
+p._2
+p(0)
+p(1)
 // End chunk
 
 // Chunk:  mdoc
@@ -21,19 +24,20 @@ cc2tup(IntBool(3, false))
 // End chunk
 
 // Chunk:  mdoc
-sealed trait SumIntBool
-case class SumInt(i: Int) extends SumIntBool
-case class SumBool(b: Boolean) extends SumIntBool
+enum SumIntBool:
+  case SumInt(i: Int)
+  case SumBool(b: Boolean)
+
+import SumIntBool.*
 
 val si = SumInt(3)
 val sb = SumBool(false)
 // End chunk
 
 // Chunk:  mdoc
-def echoContents(sib: SumIntBool): String = sib match {
+def echoContents(sib: SumIntBool): String = sib match
   case SumInt(i)  => "Integer: " + i
   case SumBool(b) => "Boolean: " + b
-}
 
 echoContents(si)
 echoContents(sb)
@@ -43,12 +47,23 @@ echoContents(sb)
 val ei: Either[Int, Boolean] = Left(3)
 val eb: Either[Int, Boolean] = Right(false)
 
-def echoEither(sib: Either[Int, Boolean]): String = sib match {
+def echoEither(sib: Either[Int, Boolean]): String = sib match
   case Left(i)  => "Integer: " + i
   case Right(b) => "Boolean: " + b
-}
 
 echoEither(ei)
 echoEither(eb)
+// End chunk
+
+// Chunk:  mdoc:reset
+val si : Int|Boolean = 3
+val sb : Int|Boolean = false
+
+def echoContents(sib: Int|Boolean): String = sib match
+  case i: Int => "Integer: " + i
+  case b: Boolean => "Boolean: " + b
+
+echoContents(si)
+echoContents(sb)
 // End chunk
 

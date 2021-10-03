@@ -8,22 +8,24 @@ sqrt(16.0) map (sqrt(_))
 // Chunk:  mdoc
 sqrt(16.0).map{sqrt(_)}.flatten
 sqrt(16.0).flatMap{sqrt(_)}
-for {
+for
   x <- sqrt(16)
   y <- sqrt(x)
-  } yield y
-import cats._
-import cats.implicits._
+yield y
+
+import cats.*
+import cats.implicits.*
 sqrt(16.0) >>= sqrt
 // End chunk
 
 // Chunk: 
-def pure[A](x: A): F[A]
-def flatten[A](ffa: F[F[A]]): F[A]
+  def pure[A](x: A): F[A]
+  extension [A](ffa: F[F[A]])
+    def flatten: F[A]
 // End chunk
 
 // Chunk: 
-def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
+  extension [A, B](fa: F[A]) def flatMap(f: A => F[B]): F[B]
 // End chunk
 
 // Chunk: 
@@ -41,17 +43,18 @@ def monadRightIdentity[A](fa: F[A]) =
 
 // Chunk:  mdoc
 def fourthRoot[M[_]: Monad](md: M[Double])(
-    sqrtM: Double => M[Double]): M[Double] = for {
-  x <- md
-  y <- sqrtM(x)
-  z <- sqrtM(y)
-  } yield z
+  sqrtM: Double => M[Double]): M[Double] = for
+    x <- md
+    y <- sqrtM(x)
+    z <- sqrtM(y)
+  yield z
 
 fourthRoot(Option(16.0))(sqrt)
 // End chunk
 
 // Chunk: 
-def tailRecM[A, B](a: A)(f: A => F[Either[A, B]]): F[B] = ???
+extension [A, B](a: A)
+  def tailRecM(f: A => F[Either[A, B]]): F[B] = ???
 // End chunk
 
 // Chunk: 
@@ -72,19 +75,19 @@ xr.flatMap(x => {yr.map(y => (x,y))})
 // End chunk
 
 // Chunk:  mdoc
-for {
+for
   x <- xr
   y <- yr
-} yield (x,y)
+yield (x,y)
 // End chunk
 
 // Chunk:  mdoc
 val log: Double => Option[Double] = x => if (x > 0)
   Some(math.log(x)) else None
-val loglog: Double => Option[Double] = x => for {
+val loglog: Double => Option[Double] = x => for
   lx <- log(x)
   llx <- log(lx)
-} yield llx
+yield llx
 loglog(2.0)
 loglog(0.5)
 // End chunk
@@ -98,6 +101,8 @@ sqrtE(4.0)
 sqrtE(-1.0)
 sqrtE(16.0) >>= sqrtE
 sqrtE(-1.0) >>= sqrtE
+
+fourthRoot(16.0.asRight[String])(sqrtE)
 // End chunk
 
 // Chunk:  mdoc
@@ -165,12 +170,12 @@ Writer(Vector("Logged value"), 4)
 
 type Log[V] = Writer[Vector[String], V]
 
-val loggedValue = for {
-a <- 5.pure[Log]
-_ <- Vector("log").tell
-b <- 3.writer(Vector("logged value of 3"))
-_ <- Vector("more log").tell
-} yield (a + b)
+val loggedValue = for
+  a <- 5.pure[Log]
+  _ <- Vector("log").tell
+  b <- 3.writer(Vector("logged value of 3"))
+  _ <- Vector("more log").tell
+yield (a + b)
 
 loggedValue.value
 loggedValue.written
@@ -183,19 +188,19 @@ type IDState[A] = State[Int, A]
 def createID(): IDState[String] = State(counter => 
   (counter+1, "user"+counter))
   
-val ids = for {
+val ids = for
   u1 <- createID()
   u2 <- createID()
-} yield List(("Angela", u1), ("Barry", u2))
+yield List(("Angela", u1), ("Barry", u2))
 
 val people = List("Andrew", "Betty", "Charles", "Doris")
-val moreIds = people.traverse{
-  p => createID().map(id => (p, id)) }
+val moreIds = people.traverse(
+  p => createID().map(id => (p, id)) )
 
-val all = for {
+val all = for
   l1 <- ids
   l2 <- moreIds
-} yield l1 ++ l2
+yield l1 ++ l2
 
 all.runA(1).value
 // End chunk
@@ -204,10 +209,9 @@ all.runA(1).value
 import scala.util.{Try, Success, Failure}
 
 def checkFile(filename: String): String = 
-  Try(scala.io.Source.fromFile(filename)) match {
+  Try(scala.io.Source.fromFile(filename)) match
     case Success(file) => "File: " + filename + " exists!"
-	case Failure(err)  => "Whoops! " + err
-  }
+    case Failure(err)  => "Whoops! " + err
   
 checkFile("Readme.md")
 checkFile("README.md")
@@ -215,7 +219,7 @@ checkFile("README.md")
 
 // Chunk:  mdoc:reset-class
 import scala.concurrent.{Future, ExecutionContext}
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import scala.util.{Try, Success, Failure}
 import ExecutionContext.Implicits.global
 
@@ -225,15 +229,13 @@ val f1 = Future {
 val f2 = Future {
   Thread.sleep(1000)
   2 }
-val f3 = for {
+val f3 = for
   v1 <- f1
   v2 <- f2
-} yield (v1+v2)
-f3.onComplete{ _ match {
+yield (v1+v2)
+f3.onComplete( _ match
   case Success(v) => "Result: " + v
-  case _          => "Whoops!"
-  }
-}
-scala.concurrent.Await.result(f3, 5.second)
+  case _          => "Whoops!" )
+scala.concurrent.Await.result(f3, 5.second)  
 // End chunk
 

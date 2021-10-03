@@ -2,7 +2,7 @@
 
 The course will provide an introduction to category theory and pure functional programming in Scala, and explain how and why core concepts from category theory can enable the construction of modular, composable, testable and reusable pure functional programs.
 
-The course will use Scala 2.12 for illustration of concepts and hands-on exercises, together with the Typelevel Cats library, and some minor use of associated Typelevel libraries (such as Cats-effect, Simulacrum, Monocle, ScalaCheck and Discipline).
+The course will use Scala 3 for illustration of concepts and hands-on exercises, together with the Typelevel Cats library, and some minor use of associated Typelevel libraries (such as Cats-effect, Monocle, ScalaCheck and Discipline).
 
 The course will run over two full days, and will be delivered in four parts, each corresponding to half a day. Each part will consist of theory (delivered by lecture accompanied by PDF notes), some illustrative live demonstration, and some hands-on exercises to be attempted by course participants. Some appropriate additional on-line resources will also be provided.
 

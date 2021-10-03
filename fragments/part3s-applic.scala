@@ -1,13 +1,13 @@
-// Chunk: 
-trait Applicative[F[_]] extends Functor[F] {
+// Chunk:  mdoc
+import cats.Functor
+trait Applicative[F[_]] extends Functor[F]:
   def pure[A](a: A): F[A]
   def product[A, B](fa: F[A], fb: F[B]): F[(A, B)]
-}
 // End chunk
 
-// Chunk:  mdoc
-import cats._
-import cats.implicits._
+// Chunk:  mdoc:reset
+import cats.*
+import cats.implicits.*
 
 (1.some).product(2.some)
 (1.some) product (2.some)
@@ -18,11 +18,10 @@ Applicative[Option].map3(1.some, 2.some, 3.some)(_+_+_)
 (1.some, 2.some, 3.some).mapN(_+_+_)
 // End chunk
 
-// Chunk: 
-trait Applicative[F[_]] extends Functor[F] {
+// Chunk:  mdoc
+trait Applicative[F[_]] extends Functor[F]:
   def pure[A](a: A): F[A]
   def ap[A, B](fab: F[A => B])(fa: F[A]): F[B]
-}
 // End chunk
 
 // Chunk: 
@@ -41,23 +40,23 @@ inc.some <*> None
 // End chunk
 
 // Chunk:  mdoc:reset-class
-import cats._
-import cats.implicits._
+import cats.*
+import cats.implicits.*
 import scala.concurrent.{Future, ExecutionContext}
 import scala.concurrent.duration._
 import scala.util.{Try, Success, Failure}
 import ExecutionContext.Implicits.global
 
-val f1: () => Future[Int] = () => Future{
+val f1: () => Future[Int] = () => Future {
   Thread.sleep(1000)
   1 }
 
 f1().onComplete(i => println("hi"))
 
-val f2 = for {
+val f2 = for
   v1 <- f1()
   v2 <- f1()
-} yield (v1+v2)
+yield (v1+v2)
 f2.onComplete(i => println("hi"))
 
 (f1(), f1()).mapN(_+_).onComplete(println(_))
@@ -68,10 +67,10 @@ Thread.sleep(3000)
 // Chunk:  mdoc
 val l1 = List(1,2,3)
 val l2 = List(4,5,6)
-for {
+for
   i <- l1
   j <- l2
-} yield (i+j)
+yield (i+j)
 // End chunk
 
 // Chunk:  mdoc
@@ -93,7 +92,7 @@ Parallel.parProduct(l1,l2)
 
 // Chunk:  mdoc
 import cats.data.Validated
-import cats.data.Validated._
+import cats.data.Validated.*
 Valid(3)
 Validated.valid[String, Int](3)
 3.valid
@@ -116,17 +115,19 @@ val i2 = Vector("error2").invalid[Int]
 (i1, i2, i2).mapN(_+_+_)
 // End chunk
 
-// Chunk: 
-trait Foldable[F[_]] {
-  def foldLeft[A, B](fa: F[A], b: B)(f: (B, A) => B): B
-  def foldRight[A, B](fa: F[A], b: B)(f: (A, B) => B): B
-}
+// Chunk:  mdoc
+trait Foldable[F[_]]:
+  extension [A, B](fa: F[A])
+    def foldLeft(b: B)(f: (B, A) => B): B
+  extension [A, B](fa: F[A])
+    def foldRight(b: B)(f: (A, B) => B): B
 // End chunk
 
 // Chunk: 
-def foldMap[A, B: Monoid](fa: F[A])(f: A => B): B
-def foldMapM[G[_]: Monad, A, B: Monoid](fa: F[A])(
-  f: A => G[B]): G[B]
+extension [A, B: Monoid](fa: F[A])
+  def foldMap(f: A => B): B
+extension [G[_]: Monad, A, B: Monoid](fa: F[A])
+  def foldMapM(f: A => G[B]): G[B]
 // End chunk
 
 // Chunk:  mdoc
@@ -140,15 +141,15 @@ List(1,2,3).foldMap(i => List(i))
 List(1,2,3).foldMapM(i => List(i))
 // End chunk
 
-// Chunk: 
-trait Traverse[F[_]] extends Functor[F] with Foldable[F] {
-  def traverse[G[_]: Applicative, A, B](fa: F[A])(
-    f: A => G[B]): G[F[B]]
-}
+// Chunk:  mdoc
+trait Traverse[F[_]] extends Functor[F] with Foldable[F]:
+  extension [G[_]: Applicative, A, B](fa: F[A])
+    def traverse(f: A => G[B]): G[F[B]]
 // End chunk
 
 // Chunk: 
-def sequence[G[_]: Applicative, A](fga: F[G[A]]): G[F[A]]
+extension [G[_]: Applicative, A](fga: F[G[A]])
+  def sequence: G[F[A]]
 // End chunk
 
 // Chunk:  mdoc

@@ -11,34 +11,32 @@ c
 // End chunk
 
 // Chunk:  mdoc
-def fun(a: Int, b: => Int): Int = {
+def fun(a: Int, b: => Int): Int =
   println("fun side-effect")
   a*b
-}
+
 fun(2, 3)
 fun( {println("A side-effect"); 2},
   {println("B side-effect"); 3} )
 // End chunk
 
 // Chunk:  mdoc
-val d = new Function0[Int] {
+val d = new Function0[Int]:
   def apply() = { println("D"); 4 }
-}
-d
 d
 d()
 d()
 // End chunk
 
 // Chunk:  mdoc
-import cats._
-import cats.implicits._
+import cats.*
+import cats.implicits.*
 import cats.data.Reader
 type Thunk[A] = Reader[Unit, A]
 val e: Thunk[Int] = Reader(u => {println("E"); 6})
 e
-e(Unit)
-e.run(Unit)
+e(())
+e.run(())
 // End chunk
 
 // Chunk:  mdoc
@@ -61,8 +59,8 @@ h.value
 // End chunk
 
 // Chunk: 
-def foldRight[A, B](fa: F[A], lb: Eval[B])(
-  f: (A, Eval[B]) => Eval[B]): Eval[B]
+extension [A, B](fa: F[A])
+  def foldRight (lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B]
 // End chunk
 
 // Chunk:  mdoc
@@ -82,7 +80,7 @@ case class Suspend[F[_], A](
 // End chunk
 
 // Chunk:  mdoc
-import cats.free._
+import cats.free.*
 case class Wrapped[A](a: A)
 type WrappedF[A] = Free[Wrapped,A]
 val p3 = Monad[WrappedF].pure(3)
@@ -91,11 +89,9 @@ comp
 // End chunk
 
 // Chunk:  mdoc
-val w2v = new (Wrapped ~> Id) {
-  def apply[A](w: Wrapped[A]): A = w match {
+val w2v = new (Wrapped ~> Id):
+  def apply[A](w: Wrapped[A]): A = w match
     case Wrapped(a) => a
-  }
-}
 // End chunk
 
 // Chunk: 
@@ -119,15 +115,13 @@ ce.value
 
 // Chunk:  mdoc
 import scala.concurrent.{Future, ExecutionContext}
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 //import scala.util.{Try, Success, Failure}
 import ExecutionContext.Implicits.global
 
-val w2f = new (Wrapped ~> Future) {
-  def apply[A](w: Wrapped[A]): Future[A] = w match {
+val w2f = new (Wrapped ~> Future):
+  def apply[A](w: Wrapped[A]): Future[A] = w match
     case Wrapped(a) => Future{ a }
-  }
-}
 
 val cf = comp.foldMap(w2f)
 scala.concurrent.Await.result(cf, 1.second)
