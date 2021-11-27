@@ -18,8 +18,8 @@ to create a new project template with all of the required dependencies in the cu
 
 Try pasting the following into a REPL to make sure that you are properly set up:
 ```scala
-import cats._
-import cats.implicits._
+import cats.*
+import cats.implicits.*
 Map("a" -> 1, "b" -> 2) |+| Map("b" -> 3, "c" -> 4)
 ```
 
