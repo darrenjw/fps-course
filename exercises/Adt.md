@@ -8,7 +8,7 @@ These exercises are to be undertaken following the presentation of the material 
 
 * Make sure that you are set up to write, compile and run code using the libraries and versions used in this course:
 
-Scala 3.0.1, Sbt 1.5.2, Cats 2.6.1, Monocle 3.0.0, Discipline 1.0.9, MUnit 0.7.29, MDoc 2.2.22
+Scala 3.0.1, Sbt 1.5.1, Cats 2.6.1, Monocle 3.0.0, Discipline 1.0.9, MUnit 0.7.29, MDoc 2.2.22
 
 I have a [sbt giter8 project template](https://github.com/darrenjw/fps.g8) that should make this very easy. Assuming that you have [sbt]() installed, you should just be able to do:
 ```bash
