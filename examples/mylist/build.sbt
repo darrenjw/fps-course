@@ -1,38 +1,34 @@
 // build.sbt
 
-name := "mylist"
+name := "MyList"
 
 version := "0.1-SNAPSHOT"
 
 scalacOptions ++= Seq(
   "-unchecked", "-deprecation", "-feature", "-language:higherKinds",
-  "-language:implicitConversions", "-Ypartial-unification"
+  "-language:implicitConversions", "-Ykind-projector:underscores"
 )
 
-addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
-addCompilerPlugin("org.scalamacros" %% "paradise" % "2.1.1" cross CrossVersion.full)
+enablePlugins(MdocPlugin)
 
 libraryDependencies  ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-  "org.scalactic" %% "scalactic" % "3.0.8",
-  "com.github.alexarchambault" %% "scalacheck-shapeless_1.14" % "1.2.3" % "test",
-  "org.typelevel" %% "cats-core" % "2.0.0",
-  "org.typelevel" %% "cats-free" % "2.0.0",
-  "org.typelevel" %% "cats-laws" % "2.0.0",
-  "org.typelevel" %% "cats-effect" % "2.0.0",
-  "org.typelevel" %% "discipline-core" % "1.0.0",
-  "org.typelevel" %% "discipline-scalatest" % "1.0.0-RC1",
-  "org.typelevel" %% "simulacrum" % "1.0.0"
+  "org.scalameta" %% "munit" % "0.7.29" % Test,
+  "org.scalameta" %% "munit-scalacheck" % "0.7.29" % Test,
+  "org.typelevel" %% "discipline-munit" % "1.0.9" % Test,
+  "org.typelevel" %% "cats-core" % "2.6.1",
+  "org.typelevel" %% "cats-free" % "2.6.1",
+  "org.typelevel" %% "cats-laws" % "2.6.1",
+  "org.typelevel" %% "cats-effect" % "3.2.2",
+  "org.typelevel" %% "discipline-core" % "1.1.5"
 )
 
-val monocleVersion = "2.0.0"
+val monocleVersion = "3.0.0"
 libraryDependencies ++= Seq(
-  "com.github.julien-truffaut" %%  "monocle-core"  % monocleVersion,
-  "com.github.julien-truffaut" %%  "monocle-macro" % monocleVersion,
-  "com.github.julien-truffaut" %%  "monocle-law"   % monocleVersion % "test"
+  "dev.optics" %%  "monocle-core"  % monocleVersion,
+  "dev.optics" %%  "monocle-law"   % monocleVersion % "test"
 )
 
-val circeVersion = "0.12.1"
+val circeVersion = "0.14.1"
 libraryDependencies ++= Seq(
   "io.circe" %% "circe-core",
   "io.circe" %% "circe-generic",
@@ -47,7 +43,7 @@ resolvers ++= Seq(
     "https://oss.sonatype.org/content/repositories/releases/"
 )
 
-scalaVersion := "2.12.10"
+scalaVersion := "3.0.1"
 
 
 // eof
