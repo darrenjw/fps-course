@@ -27,5 +27,5 @@ Time          | Activity
 3.00 - 4.00   | Exercises
 
 
-**Copyright (C) 2019, Darren J Wilkinson - some rights reserved**
+**Copyright (C) 2021, Darren J Wilkinson - some rights reserved**
 
