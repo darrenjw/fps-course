@@ -16,7 +16,7 @@ import org.scalacheck.Prop.*
 
 class MyListLawTests extends DisciplineSuite:
 
-  // TODO: Generators and Arbitrary currently _copied_ from PBTs - should factor out
+  // TODO: Generators and Arbitrary currently _copied_ from PBTs - could factor out
   // Gen for MyList[T], where T is Arbitrary
   def genNil[T: Arbitrary] = Gen.const(MyNil: MyList[T])
   def genCons[T: Arbitrary] = for {
@@ -29,6 +29,7 @@ class MyListLawTests extends DisciplineSuite:
   given [T: Arbitrary]: Arbitrary[MyList[T]] = Arbitrary(genList[T])
   // Need an equality for MyList
   given [T: Eq]: Eq[MyList[T]] = Eq.fromUniversalEquals
+
 
   // Monoid
   import Instances.{given MonoidK[MyList]}
