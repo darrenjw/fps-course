@@ -19,7 +19,7 @@ object Instances:
     def empty[A]: MyList[A] = MyNil
 
   // Functor instance
-  given Functor[MyList] with
+  given fml: Functor[MyList] with
     def map[A, B](fa: MyList[A])(f: A => B): MyList[B] = fa.map(f)
 
   // CoflatMap instance

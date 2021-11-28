@@ -1,77 +1,72 @@
 // Example unit tests
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should.Matchers
+import munit.*
 
-class MyListSpec extends AnyFlatSpec with Matchers {
+class MyListSpec extends FunSuite:
 
   val smallList = MyList.intList(15)
 
- "A MyList" should "combine" in {
-   val l = (1 :: 2 :: MyNil) ++ (3 :: 4 :: MyNil)
-   l shouldBe (1 :: 2 :: 3 :: 4 :: MyNil)
+  test("A MyList should combine") {
+    val l = (1 :: 2 :: MyNil) ++ (3 :: 4 :: MyNil)
+    assertEquals(l, 1 :: 2 :: 3 :: 4 :: MyNil)
   }
 
-  it should "combine sequentially" in {
-    MyList.intList(10) ++ MyList.intList(20,11) shouldBe MyList.intList(20)
+  test("it should combine sequentially") {
+    assertEquals(MyList.intList(10) ++ MyList.intList(20,11), MyList.intList(20))
   }
 
-  it should "reverse" in {
-    (1 :: 2 :: 3 :: MyNil).reverse shouldBe (3 :: 2 :: 1 :: MyNil)
+  test("it should reverse") {
+    assertEquals((1 :: 2 :: 3 :: MyNil).reverse, (3 :: 2 :: 1 :: MyNil))
   }
 
-  it should "reverse-reverse" in {
-    smallList.reverse.reverse shouldBe smallList
+  test("it should reverse-reverse") {
+    assertEquals(smallList.reverse.reverse, smallList)
   }
 
-  it should "size correctly" in {
-    smallList.size shouldBe 15
+  test("it should size correctly") {
+    assertEquals(smallList.size, 15)
   }
 
-  it should "map" in {
-    (1 :: 2 :: 3 :: MyNil) map (_*2) shouldBe 2 :: 4 :: 6 :: MyNil
+  test("it should map") {
+    assertEquals((1 :: 2 :: 3 :: MyNil) map (_*2), 2 :: 4 :: 6 :: MyNil)
   }
 
-  it should "foldLeft" in {
-    (1 :: 2 :: 3 :: MyNil).foldLeft(0)(_+_) shouldBe 6
+  test("it should foldLeft") {
+    assertEquals((1 :: 2 :: 3 :: MyNil).foldLeft(0)(_+_), 6)
   }
 
-  it should "foldRightUnsafe" in {
-    (1 :: 2 :: 3 :: MyNil).foldRightUnsafe(0)(_+_) shouldBe 6
+  test("it should foldRightUnsafe") {
+    assertEquals((1 :: 2 :: 3 :: MyNil).foldRightUnsafe(0)(_+_), 6)
   }
 
-  it should "foldLeft (non-assoc)" in {
-    (1 :: 2 :: 3 :: MyNil).foldLeft(0)(_-_) shouldBe -6
+  test("it should foldLeft (non-assoc)") {
+    assertEquals((1 :: 2 :: 3 :: MyNil).foldLeft(0)(_-_), -6)
   }
 
-  it should "foldRight (non-assoc)" in {
-    (1 :: 2 :: 3 :: MyNil).foldRightUnsafe(0)(_-_) shouldBe 2
+  test("it should foldRight (non-assoc)") {
+    assertEquals((1 :: 2 :: 3 :: MyNil).foldRightUnsafe(0)(_-_), 2)
   }
 
-  it should "flatMap" in {
-    (1 :: 2 :: 3 :: MyNil) flatMap (a => (a :: a*2 :: MyNil)) shouldBe (
-      1 :: 2 :: 2 :: 4 :: 3 :: 6 :: MyNil)
+  test("it should flatMap") {
+    assertEquals((1 :: 2 :: 3 :: MyNil) flatMap (a => (a :: a*2 :: MyNil)),
+      (1 :: 2 :: 2 :: 4 :: 3 :: 6 :: MyNil))
   }
 
-  it should "coflatMap" in {
-    (2 :: 5 :: MyNil) coflatMap(_.foldLeft(0)(_+_)) shouldBe (7 :: 5 :: MyNil)
+  test("it should coflatMap") {
+    assertEquals((2 :: 5 :: MyNil) coflatMap(_.foldLeft(0)(_+_)), (7 :: 5 :: MyNil))
   }
 
-  it should "coflatten" in {
-    (2 :: 5 :: MyNil).coflatten shouldBe (2 :: 5 :: MyNil) :: (5 :: MyNil) :: MyNil
+  test("it should coflatten") {
+    assertEquals((2 :: 5 :: MyNil).coflatten, (2 :: 5 :: MyNil) :: (5 :: MyNil) :: MyNil)
   }
 
-  it should "coflatten.flatten" in {
-    (2 :: 5 :: MyNil).coflatten.flatten shouldBe 2 :: 5 :: 5 :: MyNil
+  test("it should coflatten.flatten") {
+    assertEquals((2 :: 5 :: MyNil).coflatten.flatten, 2 :: 5 :: 5 :: MyNil)
   }
 
-  it should "flatten a flat list" in {
-    smallList.flatten shouldBe smallList
+  test("it should flatten a flat list") {
+    assertEquals(smallList.flatten, smallList)
   }
-
-
-}
-
 
 
 

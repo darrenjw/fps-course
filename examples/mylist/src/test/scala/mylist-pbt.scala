@@ -1,14 +1,13 @@
 // Example property-based tests
 
-import org.scalatest.flatspec.{AnyFlatSpec}
-import org.scalatest.matchers.should.Matchers
+import munit.ScalaCheckSuite
+import org.scalacheck.*
+import org.scalacheck.Prop.*
 
-import org.scalatestplus.scalacheck._
-import org.scalacheck._
-import Gen._
-import Arbitrary.arbitrary
+import cats.*
+import cats.implicits.*
 
-class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyChecks {
+class MyListPropTests extends ScalaCheckSuite:
 
   // This should automatically define arbitrary instances (but doesn't seem to work)
   //import org.scalacheck.ScalacheckShapeless._
@@ -16,116 +15,115 @@ class MyListPropTests extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
   // Start with manual building of lists
   val smallInt = Gen.choose(0, 100)
 
-  "A MyList" should "size correctly" in {
+  property("A MyList should size correctly") {
     forAll(smallInt) { (n) =>
-        MyList.intList(n).size shouldBe n
+        assertEquals(MyList.intList(n).size, n)
     }
   }
 
   // Gen for MyList[T], where T is Arbitrary
-  def genNil[T: Arbitrary] = const(MyNil: MyList[T])
-  def genCons[T: Arbitrary] = for {
-    h <- arbitrary[T]
+  def genNil[T: Arbitrary]: Gen[MyList[T]] = Gen.const(MyNil: MyList[T])
+  def genCons[T: Arbitrary]: Gen[MyList[T]] = for {
+    h <- Arbitrary.arbitrary[T]
     t <- genList[T]
   } yield MyCons(h, t)
-  // def genList[T: Arbitrary]: Gen[MyList[T]] = Gen.oneOf(genNil[T], lzy(genCons[T]))
+  // def genList[T: Arbitrary]: Gen[MyList[T]] = Gen.oneOf(genNil[T], genCons[T])
   // bias to longer lists...
-  def genList[T: Arbitrary]: Gen[MyList[T]] = Gen.oneOf(genNil[T], lzy(genCons[T]), lzy(genCons[T]), lzy(genCons[T]), lzy(genCons[T]))
+  def genList[T: Arbitrary]: Gen[MyList[T]] = Gen.oneOf(genNil[T], genCons[T], genCons[T], genCons[T], genCons[T])
 
   // Can use the generator explicity to generate random instances
-  "A MyList[Int]" should "reverse.reverse" in {
+  property("A MyList[Int] should reverse.reverse") {
     forAll(genList[Int]) { (l) =>
-      l.reverse.reverse shouldBe l
+      assertEquals(l.reverse.reverse, l)
     }
   }
 
-  "A MyList[String]" should "reverse.reverse" in {
+  property("A MyList[String] should reverse.reverse") {
     forAll(genList[String]) { (l) =>
-      l.reverse.reverse shouldBe l
+      assertEquals(l.reverse.reverse, l)
     }
   }
 
-  "A MyList[Double]" should "reverse.reverse" in {
+  property("A MyList[Double] should reverse.reverse") {
     forAll(genList[Double]) { (l) =>
-      l.reverse.reverse shouldBe l
+      assertEquals(l.reverse.reverse, l)
     }
   }
 
   // Create an Arbitrary instance for MyList[T]
-  implicit def arbMyList[T: Arbitrary]: Arbitrary[MyList[T]] = Arbitrary(genList[T])
+  given [T: Arbitrary]: Arbitrary[MyList[T]] = Arbitrary(genList[T])
 
   // Can use the Arbitrary instance to implicitly generate random instances
-  "An arbitrary MyList[String]" should "reverse.reverse" in {
+  property("An arbitrary MyList[String] should reverse.reverse") {
     forAll { (l: MyList[String]) =>
-      l.reverse.reverse shouldBe l
+      assertEquals(l.reverse.reverse, l)
     }
   }
 
-  "An arbitrary MyList[Int]" should "reverse.reverse" in {
+  property("An arbitrary MyList[Int] should reverse.reverse") {
     forAll { (l: MyList[Int]) =>
-      l.reverse.reverse shouldBe l
+      assertEquals(l.reverse.reverse, l)
     }
   }
 
-  it should "maintain size after mapping" in {
+  property("it should maintain size after mapping") {
     forAll { (l: MyList[Int]) =>
-      l.map(_*2).size shouldBe l.size
+      assertEquals(l.map(_*2).size, l.size)
     }
   }
 
-  it should "have size = sizeUnsafe" in {
+  property("it should have size = sizeUnsafe") {
     forAll { (l: MyList[Int]) =>
-      l.size shouldBe l.sizeUnsafe
+      assertEquals(l.size, l.sizeUnsafe)
     }
   }
 
-  it should "have foldLeft = foldRightUnsafe for associative operation" in {
+  property("it should have foldLeft = foldRightUnsafe for associative operation") {
     forAll { (l: MyList[Int]) =>
-      l.foldLeft(0)(_+_) shouldBe l.foldRightUnsafe(0)(_+_)
+      assertEquals(l.foldLeft(0)(_+_), l.foldRightUnsafe(0)(_+_))
     }
   }
 
   import cats.Eval
-  it should "have foldRight = foldRightUnsafe" in {
+  property("it should have foldRight = foldRightUnsafe") {
     forAll { (l: MyList[Int]) =>
-      l.foldRight(Eval.always(0))((a, lb) => lb.map(a - _)).value shouldBe l.foldRightUnsafe(0)(_ - _)
+      assertEquals(l.foldRight(Eval.always(0))((a, lb) => lb.map(a - _)).value,
+        l.foldRightUnsafe(0)(_ - _))
     }
   }
 
-  it should "have map = mapUnsafe" in {
+  property("it should have map = mapUnsafe") {
     forAll { (l: MyList[Int]) =>
-      l.map(_*2) shouldBe l.mapUnsafe(_*2)
+      assertEquals(l.map(_*2), l.mapUnsafe(_*2))
     }
   }
 
-  it should "have reverse = reverseUnsafe" in {
+  property("it should have reverse = reverseUnsafe") {
     forAll { (l: MyList[Int]) =>
-      l.reverse shouldBe l.reverseUnsafe
+      assertEquals(l.reverse, l.reverseUnsafe)
     }
   }
 
-  it should "have concat = concatUnsafe" in {
+  property("it should have concat = concatUnsafe") {
     forAll { (l1: MyList[Int], l2: MyList[Int]) =>
-      l1.concat(l2) shouldBe l1.concatUnsafe(l2)
+      assertEquals(l1.concat(l2), l1.concatUnsafe(l2))
     }
   }
 
-  it should "have flatMap = flatMapUnsafe" in {
+  property("it should have flatMap = flatMapUnsafe") {
     forAll { (l: MyList[Int]) =>
-      l.flatMap(i => i :: i+1 :: i*2 :: MyNil) shouldBe l.flatMapUnsafe(i => i :: i+1 :: i*2 :: MyNil)
+      assertEquals(l.flatMap(i => i :: i+1 :: i*2 :: MyNil),
+        l.flatMapUnsafe(i => i :: i+1 :: i*2 :: MyNil))
     }
   }
 
-  it should "have coflatMap = coflatMapUnsafe" in {
+  property("it should have coflatMap = coflatMapUnsafe") {
     forAll { (l: MyList[Int]) =>
-      l.coflatMap(_.foldLeft(0)(_+_)) shouldBe l.coflatMapUnsafe(_.foldLeft(0)(_+_))
+      assertEquals(l.coflatMap(_.foldLeft(0)(_+_)), l.coflatMapUnsafe(_.foldLeft(0)(_+_)))
     }
   }
 
   // TODO: More PBTs here...
-
-}
-
 
 
 // eof
