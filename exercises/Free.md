@@ -13,7 +13,9 @@ Go through the [code fragments](../fragments/) for Part 4:
 
 ### 2. Testing laws
 
-The Cats website has a page on [law testing](https://typelevel.org/cats/typeclasses/lawtesting.html), explaining the use of cat-laws with discipline to check the required laws are satisfied by custom typeclass instances. This example is available for inspection in [tree.scala](../examples/tests/src/test/scala/tree.scala) in the examples directory. You can just `sbt test` from the `examples/tests` directory to run it.
+The Cats website has a page on [law testing](https://typelevel.org/cats/typeclasses/lawtesting.html), explaining the use of cat-laws with discipline to check the required laws are satisfied by custom typeclass instances. 
+
+A more interesting example is provided in the [MyList](../examples/mylist/) examples directory. This is a functional linked list, implemented from scratch, together with Cats instances, and a variety of unit, property-based, and law tests. Study this example carefully to get an idea of how it all fits together.
 
 ### 3. Scala exercises
 
