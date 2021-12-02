@@ -31,7 +31,12 @@ object Instances:
   given Monad[MyList] with
     def pure[A](a: A): MyList[A] = a :: MyNil
     def flatMap[A,B](fa: MyList[A])(f: A => MyList[B]): MyList[B] = fa.flatMap(f)
-    def tailRecM[A, B](a: A)(f: A => MyList[Either[A,B]]): MyList[B] = ???
+    // use default (unsafe) implementation (for now)
+    def tailRecM[A, B](a: A)(f: A => MyList[Either[A,B]]): MyList[B] =
+      flatMap(f(a)){
+        case Right(b) => pure(b)
+        case Left(nextA) => tailRecM(nextA)(f)
+      }
 
   // Foldable instance
   given Foldable[MyList] with
