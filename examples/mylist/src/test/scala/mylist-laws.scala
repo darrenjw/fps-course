@@ -60,7 +60,8 @@ class MyListLawTests extends DisciplineSuite:
   import cats.laws.discipline.SemigroupalTests.Isomorphisms
   implicit val myListIsomorphisms: Isomorphisms[MyList] =
     Isomorphisms.invariant(summon[Monad[MyList]])
-  checkAll("MyList.MonadLaws", MonadTests[MyList].monad[Int, Int, String])
+  //checkAll("MyList.MonadLaws", MonadTests[MyList].monad[Int, Int, String])
+  checkAll("MyList.MonadLaws", MonadTests[MyList].stackUnsafeMonad[Int, Int, String])
 
   // Foldable
   import Instances.{given Foldable[MyList]}
