@@ -6,8 +6,8 @@
 
 * [Functional programming in Scala (FPiS)](https://www.manning.com/books/functional-programming-in-scala)
 	* [Chapter notes](https://github.com/fpinscala/fpinscala)
-	* [Second edition](https://www.manning.com/books/functional-programming-in-scala-second-edition)
 * [Functional and reactive domain modeling (FaRDM)](https://www.manning.com/books/functional-and-reactive-domain-modeling)
+* [Scala with Cats](https://underscore.io/books/scala-with-cats/)
 * Category theory for programmers, scala edition (see below)
 
 ### Haskell/general
@@ -16,7 +16,7 @@
 	* [e-book versions](https://github.com/ehamberg/typeclassopedia-md)
 * [Category theory for computing science (Barr and Wells)](http://www.math.mcgill.ca/triples/Barr-Wells-ctcs.pdf)
 * [Learn you a Haskell for great good (LYaHFGG)](http://learnyouahaskell.com/)
-* [Purely functional data structures (Okasaki)](https://books.google.co.uk/books?id=SxPzSTcTalAC)
+* [Purely functional data structures (Okasaki)](https://www.cs.cmu.edu/~rwh/theses/okasaki.pdf)
 * [Category Theory (Awodey)](https://books.google.co.uk/books?id=IK_sIDI2TCwC)
 * Category theory for programmers (see below)
 
@@ -24,8 +24,6 @@
 
 ### Scala
 
-* [Scastie](https://scastie.scala-lang.org/) - play with Scala in a web browser
-* [Scala 3 documentation](https://docs.scala-lang.org/scala3/)
 * [Scala exercises](https://www.scala-exercises.org/)
 	* [Cats](https://www.scala-exercises.org/cats)
 	* [FP in Scala](https://www.scala-exercises.org/fp_in_scala)

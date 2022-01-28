@@ -58,6 +58,14 @@ extension [A, B](a: A)
 // End chunk
 
 // Chunk: 
+def tailRecM[A, B](a: A)(f: A => F[Either[A, B]]): F[B] =
+    flatMap(f(a)) {
+      case Right(b) => pure(b)
+      case Left(nextA) => tailRecM(nextA)(f)
+    }
+// End chunk
+
+// Chunk: 
 final case class Kleisli[F[_], A, B](run: A => F[B])
 // End chunk
 
